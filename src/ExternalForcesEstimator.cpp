@@ -184,8 +184,8 @@ void ExternalForcesEstimator::before(mc_control::MCGlobalController & controller
   else
   {
     externalTorques = residual;
-    auto pinvJtranspose = jac.jacobian(realRobot.mb(),realRobot.mbc()).transpose().completeOrthogonalDecomposition().pseudoInverse();
-    externalForces = sva::ForceVecd(pinvJtranspose*externalTorques);
+    //auto pinvJtranspose = jac.jacobian(realRobot.mb(),realRobot.mbc()).transpose().completeOrthogonalDecomposition().pseudoInverse();
+    externalForces = sva::ForceVecd(jac.jacobian(realRobot.mb(), realRobot.mbc()).transpose().completeOrthogonalDecomposition().solve(externalTorques));
   } 
 
   counter++;
